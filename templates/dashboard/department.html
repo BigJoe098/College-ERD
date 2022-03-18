@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>College</title>
+    </head>
+    <body>
+
+        <div class="d-flex flex-row">
+            <div class="p-3 bg-dark text-white" style="min-height: calc(100vh); width: 220px">
+                <a href="#" class="p-2 m-2 text-white text-decoration-none">
+                    <div class="d-flex flex-column align-items-center">
+                        <span class="fs-3 py-3">College Name</span>
+                        <img class="rounded" style="width: 100px; height: 100px;
+                        object-fit: cover;" src="{% static 'img/logo.jpg' %}">
+                    </div>
+                </a>
+                <hr>
+                <ul class="nav nav-pills flex-column p-1 mb-auto">
+                    <li class="p-1">
+                        <a href="/dashboard/department" class="text-white text-decoration-none nav-link active">Departments</a>
+                    </li>
+                    <li class="p-1">
+                        <a href="/dashboard/class" class="text-white text-decoration-none nav-link">Classes</a>
+                    </li>
+                    <li class="p-1">
+                        <a href="/dashboard/course" class="text-white text-decoration-none nav-link">Courses</a>
+                    </li>
+                    <li class="p-1">
+                        <a href="/dashboard/teacher" class="text-white text-decoration-none nav-link">Teachers</a>
+                    </li>
+                    <li class="p-1">
+                        <a href="/dashboard/student" class="text-white text-decoration-none nav-link">Students</a>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+
+            <div class="d-flex flex-column flex-fill bd-highlight">
+
+                <div class="bd-highlight shadow-sm" style="height: 60px;">
+                    <div class="container-fluid p-2 ">
+                        <div class="row">
+                            <Span class="fs-3 col-11">Department Dashboard</Span>
+                            <div class="dropdown col-1">
+                                <button class="dropdown-toggle" style="border: none; background: white" type="button" id="user" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                    </svg>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="user">
+                                <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-5 bd-highlight">
+                    <table class="table-bordered table table-striped">
+                        <div class="mb-3 ">
+                            <form method="POST">
+                                {% csrf_token %}
+
+                                {% if messages %}
+                                    <div class="mx-auto alerts ms-2 me-2">
+
+                                        {% for message in messages %}
+                                            {% if message.tags == "error" %}
+                                  
+                                              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                    {{ message }}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                </div>
+                                            {% elif message.tags == "info" %}
+                                                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                                                    {{ message }}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                </div>
+                                            {% else %}
+                                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                    {{ message }}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    </div>
+                                {% endif %}
+
+                                <div class="ps-3 d-flex flex-row bd-highlight">
+                                    <div class="p-2 bd-highlight">
+                                        <input type="text" name="search" placeholder="search..." id="search" class='col form-control'>
+                                    </div>
+                                    <div class="p-2 bd-highlight">
+                                        <input type="submit" name="filter" id="filter" value="Search" class="form-control btn btn-outline-success">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for department in departments %}
+                            <tr>
+                                <td><b>{{department.department_id}}</b></th>
+                                <td>{{department.create_date}}</td>
+                                <td>{{department.department_name}}</td>
+                                <td>
+                                    <a href="/delete/department/?id={{department.department_id}}"><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                                    <a href="/edit/department/?id={{department.department_id}}"><button type="button" class="btn btn-sm btn-outline-warning">Edit</button></a>
+                                    <a href="/view/department/?id={{department.department_id}}"><button type="button" class="btn btn-sm btn-outline-info">view</button></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>    
+                </div>
+
+                <div class="ps-2">
+                    <a href="/create/department/?id={{department.department_id}}"><button class="btn btn-outline-success btn-lg pt-0 mt-0">New Department</button></a>
+                </div>
+
+            </div>
+            
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </body>
+</html>
