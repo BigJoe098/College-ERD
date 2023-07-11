@@ -9,16 +9,7 @@ First clone the repository from Github and switch to the new directory:
     $ git clone https://github.com/BigJoe098/College-ERD
     $ cd {{ Path to directory with the project }}
     
-Activate the virtualenv for your project if installed.
-     
-Then simply apply the migrations:
-
-    $ python manage.py migrate
-    
-
-You can now run the development server:
-
-    $ python manage.py runserver
+Follow along as your requirments as below.
 
 ### Virtualenv
 
@@ -38,7 +29,8 @@ FOR WINDOWS:
     $ py -m venv env
     $ .\env\Scripts\activate
 
-      
+Do the same steps as in no virtualenv.
+
 ### No virtualenv
 
 This assumes that `python3` is linked to valid installation of python 3 and that `pip` is installed and `pip3`is valid
